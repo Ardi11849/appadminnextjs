@@ -10,36 +10,94 @@ import Api from '../midleware/Api';
 
 export default function Users() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [action, setAction] = useState('save');
+  const [id, setId] = useState(0);
 
-  const tanggal = new Date();
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    perusahaan: '',
+    alamatPerusahaan: '',
+    active: ''
+  });
+
+  const handleInputChange = (event: any) => {
+    try {
+      console.log(JSON.stringify(event));
+      setFormData(event);
+    } catch (error) {
+      const { name, value } = event.target;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSave = () => {
+    if (action == 'save') {
+      saveData(formData); // Pass the data to the parent component
+    } else if (action == 'update') {
+      updateData(formData)
+    } else {
+      deleteData()
+    }
+    closeModal(); // Close the modal
+  };
 
   const openModal = () => {
+    setAction('save');
+    setIsModalOpen(true);
+  };
+
+  const openModal2 = (event: string, id: number) => {
+    if (event != undefined) setAction(event);
+    if (id != undefined) setId(id);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setFormData({
+      username: '',
+      password: '',
+      perusahaan: '',
+      alamatPerusahaan: '',
+      active: ''
+    })
     setIsModalOpen(false);
   };
 
   const result = Api;
 
-  // interface save {
-  //   data: any
-  // }
-  const saveData = (data: any ) => {
-    console.log(data);
+  const saveData = (data: any) => {
     Api.push(
       {
-        id: 3,
+        id: Math.random(),
         username: data.username,
         perusahaan: data.perusahaan,
-        alamat_perusahaan: data.alamatPerusahaan,
+        alamatperusahaan: data.alamatperusahaan,
         active: parseInt(data.active),
         createdAt: format(new Date(), 'dd-MMM-yyyy H:I:s')
       }
     )
+  }
 
-    closeModal();
+  const updateData = (data: any) => {
+    console.log(id);
+
+    Api[id].id = Math.random();
+    Api[id].username = data.username;
+    Api[id].perusahaan = data.perusahaan;
+    Api[id].alamatperusahaan = data.alamatperusahaan;
+    Api[id].active = parseInt(data.active);
+    Api[id].createdAt = format(new Date(), 'dd-MMM-yyyy H:I:s')
+  }
+
+  const deleteData = () => {
+    
+    Api.splice(id, 1);
+    console.log(Api);
   }
 
   return (
@@ -53,8 +111,8 @@ export default function Users() {
                 <p className='text-sm font-bold float-right'>Tambah Data</p>
               </button>
             </div>
-            <Modal isOpen={isModalOpen} onClose={closeModal} onSave={saveData} />
-            <Table data={result} />
+            <Modal isOpen={isModalOpen} onClose={closeModal} handleInputChange={handleInputChange} formData={formData} handleSave={handleSave} action={action} />
+            <Table data={result} openModal={openModal2} handleInputChange={handleInputChange} />
           </div>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import { format } from 'date-fns';
-const tanggal = new Date();
+const tanggal = new Date('06-08-2023 17:31:33');
 
 const Api = [
     {
       id: 1,
       username: 'ArdiSuryana',
       perusahaan: 'Starlight',
-      alamat_perusahaan: 'Jl. Terusan Merdeka Gedung Jaya',
+      alamatperusahaan: 'Jl. Terusan Merdeka Gedung Jaya',
       active: 1,
       createdAt: format(tanggal, 'dd-MMM-yyyy H:I:s')
     },
@@ -14,7 +14,7 @@ const Api = [
       id: 2,
       username: 'Test',
       perusahaan: 'Pt. Meta',
-      alamat_perusahaan: 'Jl. Terusan Gatot Subroto Gedung Punya Mark',
+      alamatperusahaan: 'Jl. Terusan Gatot Subroto Gedung Punya Mark',
       active: 1,
       createdAt: format(tanggal, 'dd-MMM-yyyy H:I:s')
     },
@@ -22,7 +22,7 @@ const Api = [
       id: 3,
       username: 'ArdiSuryana',
       perusahaan: 'Pt. Optimus',
-      alamat_perusahaan: 'Jl. Panjang Gatot Subroto Gedung Optomus Prime',
+      alamatperusahaan: 'Jl. Panjang Gatot Subroto Gedung Optomus Prime',
       active: 0,
       createdAt: format(tanggal, 'dd-MMM-yyyy H:I:s')
     }
