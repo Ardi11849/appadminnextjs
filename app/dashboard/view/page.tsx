@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from '../../../../utils/fontawesome';
-import Header from '../../component/Header'
+import Header from '../../components/Header'
 
 export default function Dashboard() {
   return (

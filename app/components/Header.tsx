@@ -1,6 +1,6 @@
 // components/Header.js
 'use client'
-import { FontAwesomeIcon } from '../../../utils/fontawesome';
+import { FontAwesomeIcon } from '../../lib/fontawesome';
 interface HeaderProps {
     title: string; // Provide a type annotation here
     url: string;

@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { FontAwesomeIcon } from '../../../../utils/fontawesome';
-
+import { FontAwesomeIcon } from '../../../lib/fontawesome';
+import { Button } from "@/components/ui/button";
 interface modalProps {
     isOpen: any,
     onClose: any,
@@ -13,11 +12,9 @@ interface modalProps {
 }
 
 const Modal = ({ isOpen, onClose, handleInputChange, formData, handleSave, action }: modalProps) => {
-    if (!isOpen) return null;
-
     return (
         <div className={`fixed inset-0 z-50 flex items-center justify-center backdrop transition-opacity duration-300 ${isOpen ? 'show' : 'hide'}`}>
-            <div className="bg-white text-black w-1/3 rounded-lg p-6 shadow-lg">
+            <div className="bg-gray-300 text-black w-1/3 rounded-lg p-6 shadow-lg">
                 <div className="grid">
                     <div className="col py-3">
                         <p className="font-bold">Tambah Data</p>
@@ -51,23 +48,26 @@ const Modal = ({ isOpen, onClose, handleInputChange, formData, handleSave, actio
                         <hr />
                         {
                             action == 'save' ? (
-                                <button onClick={handleSave} className="mt-4 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700">
+                                <Button onClick={handleSave} className="mt-4 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700">
                                     <FontAwesomeIcon className='w-4 h-4' icon='save' />
-                                </button>
+                                    <span className="pl-2">Simpan</span>
+                                </Button>
                             ) : action == 'update' ? (
-                                <button onClick={handleSave} className="mt-4 bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500">
+                                <Button onClick={handleSave} className="mt-4 bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500">
                                     <FontAwesomeIcon className='w-4 h-4' icon='pen-to-square' />
-                                </button>
+                                    <span className="pl-2">Ubah</span>
+                                </Button>
                             ) : (
-                                <button onClick={handleSave} className="mt-4 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">
+                                <Button onClick={handleSave} className="mt-4 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">
                                     <FontAwesomeIcon className='w-4 h-4' icon='trash' />
-                                </button>
+                                    <span className="pl-2">Hapus</span>
+                                </Button>
                             )
                         }
 
-                        <button onClick={onClose} className="mt-4 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 float-right">
+                        <Button onClick={onClose} className="mt-4 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 float-right">
                             <FontAwesomeIcon className='w-4 h-4' icon='close' /> Batal
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
