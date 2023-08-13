@@ -8,8 +8,9 @@ import Modal from '../components/Modal';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '../../../lib/fontawesome';
 import Api from '../midleware/Api';
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { motion } from "framer-motion";
 const MySwal = withReactContent(Swal)
 
 export default function Users() {
@@ -137,6 +138,15 @@ export default function Users() {
   return (
     <main className="flex min-h-screen bg-gray-300 flex-col">
       <Header title='Jenis Perusahaan' url='test' />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.5,
+          ease: [0, 0.71, 0.2, 1.01]
+        }}
+      >
       <div className='px-8 py-8'>
         <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
           <div className="p-5">
@@ -151,6 +161,7 @@ export default function Users() {
           </div>
         </div>
       </div>
+      </motion.div>
     </main>
   )
 }

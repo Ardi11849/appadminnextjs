@@ -1,15 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../components/Header'
 import { Users, columns } from "../components/table/columns"
-import {DataTable} from '../components/table/Table';
+import { DataTable } from '../components/table/Table';
 import Modal from '../components/Modal';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '../../../lib/fontawesome';
-import Api from '../midleware/Api';
+import { Api } from '../midleware/Api';
+import { apis } from '../../middleware/apis';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useDispatch } from 'react-redux';
+import { motion } from "framer-motion";
 const MySwal = withReactContent(Swal)
 
 export default function Users() {
@@ -25,6 +28,22 @@ export default function Users() {
     alamatperusahaan: '',
     active: ''
   });
+
+  const datas = {
+    method: 'post',
+    url: 'login',
+    data: {
+      email: "loker.superadmin@digy.com",
+      password: "12345678"
+    }
+  }
+
+  // const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('1');
+    apis(datas)
+
+  }, [100])
 
   const handleInputChange = (event: any) => {
     try {
@@ -116,7 +135,7 @@ export default function Users() {
   const saveData = (data: any) => {
     Api.push(
       {
-        id: '"'+Math.random()+'"',
+        id: '"' + Math.random() + '"',
         username: data.username,
         perusahaan: data.perusahaan,
         alamatperusahaan: data.alamatperusahaan,
@@ -129,7 +148,7 @@ export default function Users() {
   }
 
   const updateData = (data: any) => {
-    Api[id].id = '"'+Math.random()+'"';
+    Api[id].id = '"' + Math.random() + '"';
     Api[id].username = data.username;
     Api[id].perusahaan = data.perusahaan;
     Api[id].alamatperusahaan = data.alamatperusahaan;
@@ -147,20 +166,30 @@ export default function Users() {
   return (
     <main className="flex min-h-screen bg-gray-300 flex-col">
       <Header title='Users' url='test' />
-      <div className='px-8 py-8'>
-        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
-          <div className="p-5">
-            <button className='p-2 text-white rounded-lg bg-blue-500 border hover:bg-blue-700' onClick={openModal}>
-              <FontAwesomeIcon className='w-4 h-4' icon='plus-square' />
-              <span className="pl-2">Tambah Data</span>
-            </button>
-          </div>
-          <div className="overflow-x-auto">
-            <Modal isOpen={isModalOpen} onClose={closeModal} handleInputChange={handleInputChange} formData={formData} handleSave={handleSave} action={action} />
-            <DataTable columns={columns} data={result} openModal2={openModal2} handleInputChange={handleInputChange} refresh={refresh} />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.5,
+          ease: [0, 0.71, 0.2, 1.01]
+        }}
+      >
+        <div className='px-8 py-8'>
+          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
+            <div className="p-5">
+              <button className='p-2 text-white rounded-lg bg-blue-500 border hover:bg-blue-700' onClick={openModal}>
+                <FontAwesomeIcon className='w-4 h-4' icon='plus-square' />
+                <span className="pl-2">Tambah Data</span>
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <Modal isOpen={isModalOpen} onClose={closeModal} handleInputChange={handleInputChange} formData={formData} handleSave={handleSave} action={action} />
+              <DataTable columns={columns} data={result} openModal2={openModal2} handleInputChange={handleInputChange} refresh={refresh} />
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </motion.div>
+    </main >
   )
 }
