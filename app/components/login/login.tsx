@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import { apis, storeTokenInLocalStorage } from "../../middleware/apis"
+import { apis, storeTokenInLocalStorage } from "../../../global/apis"
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';

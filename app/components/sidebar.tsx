@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
 import { usePathname } from 'next/navigation';
 import { useAnimate, stagger, motion } from "framer-motion";
-import { getTokenFromLocalStorage, storeTokenInLocalStorage } from "../middleware/apis"
+import { getTokenFromLocalStorage, storeTokenInLocalStorage } from "../../global/apis"
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -75,14 +75,11 @@ const Sidebar = () => {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setIsOpen(!isOpen), setFrom('.chart-menu') }}
                 >
-                    <div className=" float-left">
-                        <FontAwesomeIcon className='w-4 h-3' icon='chart-line' />
-                    </div>
                     <p className="text-sm font-bold float-left px-1 py-1">{isOpen ? 'Chart Menu' : 'Chart Menu'}</p>
                 </motion.button>
                 <ul className='chart-menu'>
-                    <li className={`flex chart-menu nav-item rounded hover:bg-gray-500 focus:ring-gray-300 ${path === '/dashboard/view' ? 'text-blue-300' : ''}`}>
-                        <Link href={'/dashboard/view'}>
+                    <li className={`flex chart-menu nav-item rounded hover:bg-gray-500 focus:ring-gray-300 ${path === '/dashboard' ? 'text-blue-300' : ''}`}>
+                        <Link href={'/dashboard'}>
                             <div className="px-3 py-3 float-left">
                                 <FontAwesomeIcon className='w-6 h-6' icon='chart-line' />
                             </div>
@@ -95,9 +92,6 @@ const Sidebar = () => {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setIsOpen(!isOpen), setFrom('.company-menu') }}
                 >
-                    <div className=" float-left">
-                        <FontAwesomeIcon className='w-4 h-3' icon='gear' />
-                    </div>
                     <p className="text-sm font-bold float-left px-1 py-1">{isOpen ? 'Company Menu' : 'Company Menu'}</p>
                 </motion.button>
                 <ul className='company-menu'
@@ -106,8 +100,8 @@ const Sidebar = () => {
                         clipPath: "inset(10% 50% 90% 50% round 10px)"
                     }}
                 >
-                    <li className={`flex company-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/jenis_perusahaan/view' ? 'text-blue-300' : ''}`}>
-                        <Link href={'/jenis_perusahaan/view'}>
+                    <li className={`flex company-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/jenis_perusahaan' ? 'text-blue-300' : ''}`}>
+                        <Link href={'/jenis_perusahaan'}>
                             <div className="px-3 py-3 float-left">
                                 <FontAwesomeIcon className='w-6 h-6' icon='building' />
                             </div>
@@ -120,14 +114,11 @@ const Sidebar = () => {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setIsOpen(!isOpen), setFrom('.user-menu') }}
                 >
-                    <div className=" float-left">
-                        <FontAwesomeIcon className='w-4 h-3' icon='users' />
-                    </div>
                     <p className="text-sm font-bold float-left px-1 py-1">{isOpen ? 'Users Menu' : 'Users Menu'}</p>
                 </motion.button>
                 <ul className='user-menu'>
-                    <li className={`flex user-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/users/view' ? 'text-blue-300' : ''}`}>
-                        <Link href={'/users/view'}>
+                    <li className={`flex user-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/users' ? 'text-blue-300' : ''}`}>
+                        <Link href={'/users'}>
                             <div className="px-3 py-3 float-left">
                                 <FontAwesomeIcon className='w-6 h-6' icon='users' />
                             </div>
@@ -140,9 +131,6 @@ const Sidebar = () => {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setIsOpen(!isOpen), setFrom('.setting-menu') }}
                 >
-                    <div className=" float-left">
-                        <FontAwesomeIcon className='w-4 h-3' icon='right-from-bracket' />
-                    </div>
                     <p className="text-sm font-bold float-left px-1 py-1">{isOpen ? 'Setting Menu' : 'Setting Menu'}</p>
                 </motion.button>
                 <ul className='setting-menu'>
@@ -156,12 +144,12 @@ const Sidebar = () => {
                     </li>
                 </ul>
                 <li className={`flex setting-menu nav-item rounded hover:bg-gray-500 focus:ring-gray-300`}>
-                    <Link href={'#'} onClick={logout}>
+                    <button onClick={logout}>
                         <div className="px-3 py-3 float-left">
                             <FontAwesomeIcon className='w-6 h-6' icon='right-from-bracket' />
                         </div>
                         <p className="text-l font-bold float-left px-3 py-3">Logout</p>
-                    </Link>
+                    </button>
                 </li>
             </nav>
         </div>

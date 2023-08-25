@@ -6,7 +6,7 @@ import FormLogin from "./components/login/login"
 import FormRegister from "./components/login/register";
 import { motion, LayoutGroup } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { getTokenFromLocalStorage } from "./middleware/apis"
+import { getTokenFromLocalStorage } from "../global/apis"
 
 
 export default function Login() {
