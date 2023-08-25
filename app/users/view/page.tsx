@@ -11,7 +11,6 @@ import { Api } from '../midleware/Api';
 import { apis } from '../../../global/apis';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { useDispatch } from 'react-redux';
 import { motion } from "framer-motion";
 const MySwal = withReactContent(Swal)
 

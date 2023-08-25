@@ -7,7 +7,7 @@ import { DataTable } from '../components/table/Table';
 import Modal from '../components/Modal';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '../../../lib/fontawesome';
-import Api from '../midleware/Api';
+import { Api, getPerusahaan } from '../midleware/Api';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { motion } from "framer-motion";

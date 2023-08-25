@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 const tanggal = new Date('06-08-2023 17:31:33');
+import { apis } from "../../../global/apis"
 
 export const Api = [
   {
@@ -318,3 +319,13 @@ export const Api = [
     updatedAt: format(tanggal, 'dd-MMM-yyyy H:I:s')
   }
 ];
+
+export const getUsers = async () => {
+  const data = {
+    method: 'get',
+    url: '/auth/data-user',
+    data: null
+  }
+  const result = await apis(data)
+  return result;
+}

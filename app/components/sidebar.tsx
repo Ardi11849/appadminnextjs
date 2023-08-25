@@ -100,12 +100,12 @@ const Sidebar = () => {
                         clipPath: "inset(10% 50% 90% 50% round 10px)"
                     }}
                 >
-                    <li className={`flex company-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/jenis_perusahaan' ? 'text-blue-300' : ''}`}>
-                        <Link href={'/jenis_perusahaan'}>
+                    <li className={`flex company-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/daftar_loker' ? 'text-blue-300' : ''}`}>
+                        <Link href={'/daftar_loker'}>
                             <div className="px-3 py-3 float-left">
-                                <FontAwesomeIcon className='w-6 h-6' icon='building' />
+                                <FontAwesomeIcon className='w-6 h-6' icon='briefcase' />
                             </div>
-                            <p className="text-l font-bold float-left px-3 py-3">Jenis Perusahaan</p>
+                            <p className="text-sm font-bold float-left px-3 py-3">Lowongan Pekerjaan</p>
                         </Link>
                     </li>
                 </ul>
@@ -134,12 +134,12 @@ const Sidebar = () => {
                     <p className="text-sm font-bold float-left px-1 py-1">{isOpen ? 'Setting Menu' : 'Setting Menu'}</p>
                 </motion.button>
                 <ul className='setting-menu'>
-                    <li className={`flex setting-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/setting' ? 'text-blue-300' : ''}`}>
-                        <Link href={'/setting'}>
+                    <li className={`flex setting-menu nav-item rounded hover:bg-gray-600 focus:ring-gray-300 ${path == '/master' ? 'text-blue-300' : ''}`}>
+                        <Link href={'/master'}>
                             <div className="px-3 py-3 float-left">
                                 <FontAwesomeIcon className='w-6 h-6' icon='gear' />
                             </div>
-                            <p className="text-l font-bold float-left px-3 py-3">Setting</p>
+                            <p className="text-l font-bold float-left px-3 py-3">Master</p>
                         </Link>
                     </li>
                 </ul>
