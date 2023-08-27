@@ -4,8 +4,9 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
     const url = request.url;
     console.log(request.nextUrl.pathname);
-    
-    return NextResponse.rewrite(new URL(request.nextUrl.pathname+'/view', url))
+    if (request.nextUrl.pathname != '/') {
+        return NextResponse.rewrite(new URL(request.nextUrl.pathname+'/view', url))
+    }
 }
 
 export const config = {

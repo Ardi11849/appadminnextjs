@@ -52,7 +52,7 @@ const FormRegister = ({ isOpen, onClose }: formRegisterprops) => {
         'Anda Berhasil Login',
         'success'
       ).then(() => {
-        router.replace('/dashboard/view');
+        router.replace('/dashboard');
       })
     } else {
       let message = '';

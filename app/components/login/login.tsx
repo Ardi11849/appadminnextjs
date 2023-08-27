@@ -53,7 +53,7 @@ const FormLogin = ({ isOpen, onClose }: formLoginprops) => {
         setLoading(false)
         console.log(result);
         storeTokenInLocalStorage(result.data.data.accessToken)
-        router.replace('/dashboard/view');
+        router.replace('/dashboard');
       })
     } else {
       setLoading(false)
