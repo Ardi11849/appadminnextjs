@@ -24,6 +24,7 @@ export const apis = async (datas: any) => {
     method: datas.method,
     url: url + datas.url,
     data: datas.data,
+    params: datas.data,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getTokenFromLocalStorage()

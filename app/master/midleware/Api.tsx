@@ -130,26 +130,27 @@ export const getWilayahKabupaten = async () => {
   return result;
 }
   
-export const getWilayahKecamatan = async () => {
+export const getWilayahKecamatan = async (page: number, perPage: number) => {
   const data = {
     method: 'get',
     url: '/wilayah/kecamatan/results',
     data: {
-      page: 0,
-      perpage: 0
+      page: page,
+      perpage: perPage
     }
   }
   const result = await apis(data)
   return result;
 }
   
-export const getWilayahKelurahan = async (page: number, perPage: number) => {
+export const getWilayahKelurahan = async (page: number, perPage: number, search: string) => {
   const data = {
     method: 'get',
     url: '/wilayah/kelurahan/results',
     data: {
       page: page,
-      perpage: perPage
+      perpage: perPage,
+      name: search,
     }
   }
   const result = await apis(data)

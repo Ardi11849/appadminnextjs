@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from '../../../lib/fontawesome';
 import { Button } from "@/components/ui/button";
 interface modalProps {
-    isOpen: any,
+    isOpen: boolean,
     onClose: any,
     handleInputChange: any,
     formData: any,

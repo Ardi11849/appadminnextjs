@@ -6,7 +6,9 @@ import { getJenisPerusahaan, getKeahlian, getPendidikan, getTahunPengalaman, get
 import { useEffect, useState } from "react";
 
 interface cardProps {
-    position: string
+    showHideCard: boolean,
+    position: string,
+    showTblKelurahan: any
 }
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
@@ -42,7 +44,8 @@ function useMenuAnimation(isOpen: boolean) {
 
     return scope;
 }
-const CardGeneral = ({ position }: cardProps) => {
+
+const CardGeneral = ({ showHideCard, position, showTblKelurahan }: cardProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const scope = useMenuAnimation(isOpen);
     const showJenisPerusahaan = () => {
@@ -67,15 +70,15 @@ const CardGeneral = ({ position }: cardProps) => {
         console.log(getWilayahKabupaten());
     }
     const showWilayahKecamatan = () => {
-        console.log(getWilayahKecamatan());
+        console.log(getWilayahKecamatan(1, 10));
     }
     const showWilayahKelurahan = () => {
-        // console.log(getWilayahKelurahan());
+        showTblKelurahan();
     }
 
     return (
-        <div className={`px-8 py-8 w-1/2 ${position}`}>
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
+        <div className={`px-8 py-8 w-1/2 card ${position} ${showHideCard ? 'show' : 'hide'}`}>
+            <div className="bg-white list rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
                 <h1 className="text-lg font-bold">General</h1>
                 <hr className="h-1 my-3 bg-gray-200 border-0 rounded dark:bg-gray-700" />
                 <ul className="list-disc pl-8">

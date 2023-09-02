@@ -1,13 +1,14 @@
 'use client';
 
 interface cardProps {
+    showHideCard: boolean,
     position: string
 }
 
 import { motion } from "framer-motion";
 import { getKategoriPekerjaan, getTipePekerjaan, getLevelPekerjaan } from '../../midleware/Api';
 
-const CardLoker = ({ position }: cardProps) => {
+const CardLoker = ({ showHideCard, position }: cardProps) => {
     const showKategoriPekerjaan = () => {
         console.log(getKategoriPekerjaan());
 
@@ -21,8 +22,8 @@ const CardLoker = ({ position }: cardProps) => {
 
     }
     return (
-        <div className={`px-8 py-8 w-1/2 ${position}`}>
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
+        <div className={`px-8 py-8 w-1/2 card ${position} ${showHideCard ? 'show' : 'hide'}`}>
+            <div className="bg-white list rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out">
                 <h1 className="text-lg font-bold">Lowongan Pekerjaan</h1>
                 <hr className="h-1 my-3 bg-gray-200 border-0 rounded dark:bg-gray-700" />
                 <ul className="list-disc pl-5">

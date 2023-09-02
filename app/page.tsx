@@ -16,7 +16,7 @@ export default function Login() {
   const redirectIfAuthenticated = async () => {
       const isUserAuthenticated = await getTokenFromLocalStorage();
       if (isUserAuthenticated != null && isUserAuthenticated != 'null' && isUserAuthenticated != undefined) {
-        push("/dashboard/view")
+        push("/dashboard")
       }
   };
 

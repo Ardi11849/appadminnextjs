@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header'
-import { Users, columns } from "../components/table/columns"
+import { columns } from "../components/table/columns"
 import { DataTable } from '../components/table/Table';
 import Modal from '../components/Modal';
 import { format } from 'date-fns';
