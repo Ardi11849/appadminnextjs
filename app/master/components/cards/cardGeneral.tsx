@@ -82,46 +82,42 @@ const CardGeneral = ({ showHideCard, position, showTblKelurahan }: cardProps) =>
                 <h1 className="text-lg font-bold">General</h1>
                 <hr className="h-1 my-3 bg-gray-200 border-0 rounded dark:bg-gray-700" />
                 <ul className="list-disc pl-8">
-                    <motion.div
-                        className="cursor-pointer"
-                        onClick={showJenisPerusahaan}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                        <li className="pt-2 border-b-2 border-gray-200">
+                    <li onClick={showJenisPerusahaan} className="pt-2 border-b-2 border-gray-200">
+                        <motion.div
+                            className="cursor-pointer"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.5 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                             <span className="focus:ring-blue-300 text-blue-500">Jenis Perusahaan</span>
-                        </li>
-                    </motion.div>
-                    <motion.div
-                        className="cursor-pointer"
-                        onClick={showKeahlian}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                        <li className="pt-2 border-b-2 border-gray-200">
+                        </motion.div>
+                    </li>
+                    <li onClick={showKeahlian} className="pt-2 border-b-2 border-gray-200">
+                        <motion.div
+                            className="cursor-pointer"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.5 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                             <span className="focus:ring-blue-300 text-blue-500">Keahlian</span>
-                        </li>
-                    </motion.div>
-                    <motion.div
-                        className="cursor-pointer"
-                        onClick={showPendidikan}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                        <li className="pt-2 border-b-2 border-gray-200">
+                        </motion.div>
+                    </li>
+                    <li onClick={showPendidikan} className="pt-2 border-b-2 border-gray-200">
+                        <motion.div
+                            className="cursor-pointer"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.5 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                             <span className="focus:ring-blue-300 text-blue-500">Pendidikan</span>
-                        </li>
-                    </motion.div>
-                    <motion.div
-                        className="cursor-pointer"
-                        onClick={showTahunPengalaman}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                        <li className="pt-2 border-b-2 border-gray-200">
+                        </motion.div>
+                    </li>
+                    <li onClick={showTahunPengalaman} className="pt-2 border-b-2 border-gray-200">
+                        <motion.div
+                            className="cursor-pointer"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.5 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                             <span className="focus:ring-blue-300 text-blue-500">Tahun Pengalaman</span>
-                        </li>
-                    </motion.div>
+                        </motion.div>
+                    </li>
                     <li className={`pt-2 border-gray-200 ${isOpen ? '' : 'border-b-2'}`} ref={scope}>
                         <motion.button
                             className='flex nav-item rounded text-slate-400 w-full'
@@ -131,56 +127,52 @@ const CardGeneral = ({ showHideCard, position, showTblKelurahan }: cardProps) =>
                             <p className='text-md text-gray-500 font-bold text-left'>Wilayah</p>
                         </motion.button>
                         <ul className="list-decimal pl-5 wilayah">
-                            <motion.div
-                                className="cursor-pointer"
-                                onClick={showWilayahNegara}
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.5 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                                <li className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                            <li onClick={showWilayahNegara} className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                <motion.div
+                                    className="cursor-pointer"
+                                            whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                                     <span className="focus:ring-blue-300 text-blue-500">Negara</span>
-                                </li>
-                            </motion.div>
-                            <motion.div
-                                className="cursor-pointer"
-                                onClick={showWilayahProvinsi}
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.5 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                                <li className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                </motion.div>
+                            </li>
+                            <li onClick={showWilayahProvinsi} className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                <motion.div
+                                    className="cursor-pointer"
+                                            whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                                     <span className="focus:ring-blue-300 text-blue-500">Provinsi</span>
-                                </li>
-                            </motion.div>
-                            <motion.div
-                                className="cursor-pointer"
-                                onClick={showWilayahKabupaten}
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.5 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                                <li className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                </motion.div>
+                            </li>
+                            <li onClick={showWilayahKabupaten} className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                <motion.div
+                                    className="cursor-pointer"
+                                            whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                                     <span className="focus:ring-blue-300 text-blue-500">Kabupaten</span>
-                                </li>
-                            </motion.div>
-                            <motion.div
-                                className="cursor-pointer"
-                                onClick={showWilayahKecamatan}
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.5 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                                <li className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                </motion.div>
+                            </li>
+                            <li onClick={showWilayahKecamatan} className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                <motion.div
+                                    className="cursor-pointer"
+                                    whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                                     <span className="focus:ring-blue-300 text-blue-500">Kecamatan</span>
-                                </li>
-                            </motion.div>
-                            <motion.div
-                                className="cursor-pointer"
-                                onClick={showWilayahKelurahan}
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.5 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                                <li className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                </motion.div>
+                            </li>
+                            <li onClick={showWilayahKelurahan} className={`pt-2 border-b-2 border-gray-200 wilayah ${isOpen ? '' : 'hidden'}`}>
+                                <motion.div
+                                    className="cursor-pointer"
+                                            whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                >
                                     <span className="focus:ring-blue-300 text-blue-500">Kelurahan</span>
-                                </li>
-                            </motion.div>
+                                </motion.div>
+                            </li>
                         </ul>
                     </li>
                 </ul>
