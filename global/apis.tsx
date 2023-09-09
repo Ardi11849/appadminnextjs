@@ -18,8 +18,6 @@ export function getTokenFromLocalStorage() {
 }
 
 export const apis = async (datas: any) => {
-  console.log(getTokenFromLocalStorage());
-
   return await axios({
     method: datas.method,
     url: url + datas.url,
@@ -31,7 +29,6 @@ export const apis = async (datas: any) => {
     }
   })
     .then((response) => {
-      console.log(response);
       return response;
       // dispatch({
       //   type: GET_USER,
@@ -43,7 +40,6 @@ export const apis = async (datas: any) => {
       // })
     })
     .catch((err) => {
-      console.log(err);
       return err;
       // dispatch({
       //   type: GET_USER,

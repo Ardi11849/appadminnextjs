@@ -156,3 +156,47 @@ export const getWilayahKelurahan = async (page: number, perPage: number, search:
   const result = await apis(data)
   return result;
 }
+  
+export const getWilayahKelurahanById = async (code_kelurahan: string) => {
+  const data = {
+    method: 'get',
+    url: '/wilayah/kelurahan/result/'+code_kelurahan,
+    data: {
+      
+    }
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const createWilayahKelurahan = async (datas: object) => {
+  const data = {
+    method: 'post',
+    url: '/wilayah/kelurahan/create',
+    data: datas
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const updateWilayahKelurahan = async (datas: object) => {
+  const data = {
+    method: 'put',
+    //@ts-ignore
+    url: '/wilayah/kelurahan/update/'+datas.code_kelurahan,
+    data: datas
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const deleteWilayahKelurahan = async (datas: object) => {
+  const data = {
+    method: 'delete',
+    //@ts-ignore
+    url: '/wilayah/kelurahan/delete/'+datas.code_kelurahan,
+    data: datas
+  }
+  const result = await apis(data)
+  return result;
+}

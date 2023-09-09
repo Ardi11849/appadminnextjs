@@ -44,7 +44,9 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
     const [page, setPage] = useState(1);
     const [sorting, setSorting] = useState<SortingState>([])
     const [scope, animate] = useAnimate();
-    const [openForm, setOpenForm] = useState(false)
+    const [openForm, setOpenForm] = useState(false);
+    const [dari, setDari] = useState('insert');
+    const [codeKelurahan, setCodeKelurahan] = useState('');
     const [panggil, setPanggil] = useState(1)
     const [search, setSearch] = useState('')
 
@@ -82,7 +84,14 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
     }, [perPage]);
 
     useEffect(() => {
+        if (openForm == false) {
+            fetchKelurahan();
+        }
+    }, [openForm]);
+
+    useEffect(() => {
         if (showHideTableKelurahan == true) {
+            setPage(1);
             const delay = setTimeout(() => {
                 fetchKelurahan();
             }, 1000);
@@ -114,19 +123,13 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
         setLoading(true);
 
         const response = await getWilayahKelurahan(page, perPage, search);
-        setData(response.data.data);
-        setLoading(false);
-    };
-
-
-    const action = (id: string, dari: string) => {
-        // if (dari == 'update') {
-        //   openModal2('update', id);
-        // } else {
-        //   openModal2('delete', id);
-        // }
-        // const datas = $("#" + id).data('datas');
-        // handleInputChange(datas);
+        if (response.data == null) {
+            setData([]);
+        } else {
+            setData(response.data.data);
+            setTotalRows(response.data.total);
+            setLoading(false);
+        }
     };
 
     const changePerPage = (value: any) => {
@@ -138,8 +141,16 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
         closeTable()
     }
 
-    const form = () => {
-        setOpenForm(true)
+    const form = (id: string, action: string) => {
+        setOpenForm(true);
+        setDari(action)
+        if (action != 'insert') {
+            setCodeKelurahan(id)
+        }
+    }
+
+    const closeForm = () => {
+        setOpenForm(false)
     }
 
     let table = useReactTable({
@@ -159,7 +170,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
             <div className={`content bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out`}>
                 <div className="p-5">
                     <div className="mx-auto flex items-center justify-between">
-                        <button onClick={form} className='p-2 text-white rounded-lg bg-blue-500 border hover:bg-blue-700'>
+                        <button onClick={() => form('0', 'insert')} className='p-2 text-white rounded-lg bg-blue-500 border hover:bg-blue-700'>
                             <FontAwesomeIcon className='w-4 h-4' icon='plus-square' />
                             <span className="pl-2">Tambah Data</span>
                         </button>
@@ -228,9 +239,19 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                                             <DropdownMenuContent align="end">
                                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                 <DropdownMenuItem
-                                                    onClick={() => navigator.clipboard.writeText(JSON.stringify(row))}
+                                                    onClick={() => navigator.clipboard.writeText(JSON.stringify(row.original))}
                                                 >
-                                                    <button className="bg-white-400 text-black py-2 px-4 rounded-md hover:text-blue-500" id={row.id.toString()} onClick={() => action(row.id.toString(), 'update')} data-datas={JSON.stringify(row.original)}>
+                                                    <button
+                                                        className="bg-white-400 text-black py-2 px-4 rounded-md hover:text-blue-500"
+                                                        id={
+                                                            //@ts-ignore
+                                                            row.original.code_kelurahan.toString()
+                                                        }
+                                                        onClick={
+                                                            //@ts-ignore
+                                                            () => form(row.original.code_kelurahan.toString(), 'update')}
+                                                        data-datas={JSON.stringify(row.original)
+                                                        }>
                                                         <FontAwesomeIcon className='w-4 h-4' icon='pen-to-square' />
                                                         <span className="pl-2">Update</span>
                                                     </button>
@@ -238,7 +259,16 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                                                 <DropdownMenuItem
                                                     onClick={() => navigator.clipboard.writeText(JSON.stringify(row))}
                                                 >
-                                                    <button className="bg-white-600 text-black py-2 px-4 rounded-md hover:text-blue-500" id={row.id.toString()} onClick={() => action(row.id.toString(), 'hapus')}>
+                                                    <button
+                                                        className="bg-white-600 text-black py-2 px-4 rounded-md hover:text-blue-500"
+                                                        id={
+                                                            //@ts-ignore
+                                                            row.original.code_kelurahan.toString()
+                                                        }
+                                                        onClick={
+                                                            //@ts-ignore
+                                                            () => form(row.original.code_kelurahan.toString(), 'hapus')
+                                                        }>
                                                         <FontAwesomeIcon className='w-4 h-4' icon='trash' />
                                                         <span className="pl-2">Delete</span>
                                                     </button>
@@ -321,7 +351,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                     </button>
                 </div>
             </div>
-            <Form openForm={openForm} />
+            <Form openForm={openForm} onClose={closeForm} action={dari} code_kelurahan={codeKelurahan} />
         </div>
     );
 };
