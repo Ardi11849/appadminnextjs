@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getWilayahKelurahan } from '../../../../midleware/Api';
+import { getWilayahKecamatan } from '../../../../midleware/Api';
 import {
     ColumnDef,
     flexRender,
@@ -31,12 +31,12 @@ import { stagger, useAnimate } from 'framer-motion';
 import Form from './form';
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
-interface tableKelurahanProps<TData, TValue> {
+interface tableKecamatanProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
-    showHideTableKelurahan: boolean,
+    showHideTableKecamatan: boolean,
     closeTable: any
 }
-const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeTable }: tableKelurahanProps<TData, TValue>) => {
+const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeTable }: tableKecamatanProps<TData, TValue>) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [totalRows, setTotalRows] = useState(0);
@@ -46,7 +46,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
     const [scope, animate] = useAnimate();
     const [openForm, setOpenForm] = useState(false);
     const [dari, setDari] = useState('insert');
-    const [codeKelurahan, setCodeKelurahan] = useState('');
+    const [codeKecamatan, setCodeKecamatan] = useState('');
     const [panggil, setPanggil] = useState(1)
     const [search, setSearch] = useState('')
 
@@ -54,7 +54,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
         animate(
             ".content",
             {
-                clipPath: showHideTableKelurahan
+                clipPath: showHideTableKecamatan
                     ? "inset(0% 0% 0% 0% round 10px)"
                     : "inset(10% 50% 90% 50% round 10px)"
             },
@@ -67,43 +67,43 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
 
         animate(
             ".table",
-            showHideTableKelurahan
+            showHideTableKecamatan
                 ? { opacity: 1, scale: 1, filter: "blur(0px)" }
                 : { opacity: 0, scale: 0.3, filter: "blur(20px)" },
             {
                 duration: 1,
-                delay: showHideTableKelurahan ? staggerMenuItems : 0
+                delay: showHideTableKecamatan ? staggerMenuItems : 0
             }
         );
-    }, [showHideTableKelurahan]);
+    }, [showHideTableKecamatan]);
 
     useEffect(() => {
-        if (showHideTableKelurahan == true) {
-            fetchKelurahan(page);
+        if (showHideTableKecamatan == true) {
+            fetchKecamatan(page);
         }
     }, [perPage]);
 
     useEffect(() => {
         if (openForm == false) {
-            fetchKelurahan(page);
+            fetchKecamatan(page);
         }
     }, [openForm]);
 
     useEffect(() => {
-        if (showHideTableKelurahan == true) {
+        if (showHideTableKecamatan == true) {
             setPage(1);
             const delay = setTimeout(() => {
-                fetchKelurahan(page);
+                fetchKecamatan(page);
             }, 1000);
             return () => clearTimeout(delay)
         }
     }, [search]);
 
-    let fetchKelurahan = async (page: number) => {
+    let fetchKecamatan = async (page: number) => {
         setPanggil(0)
         setLoading(true);
 
-        const response = await getWilayahKelurahan(page, perPage, search);
+        const response = await getWilayahKecamatan(page, perPage, search);
         console.log(response);
         
         if (response.data.code >= 200 && response.data.code <= 299) {
@@ -115,8 +115,8 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
         setLoading(false);
     };
 
-    if (showHideTableKelurahan == true && panggil == 1) {
-        fetchKelurahan(page);
+    if (showHideTableKecamatan == true && panggil == 1) {
+        fetchKecamatan(page);
     }
 
     const changePerPage = (value: any) => {
@@ -132,7 +132,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
         setOpenForm(true);
         setDari(action)
         if (action != 'insert') {
-            setCodeKelurahan(id)
+            setCodeKecamatan(id)
         }
     }
 
@@ -153,7 +153,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
     })
 
     return (
-        <div className={`px-8 py-8 ${showHideTableKelurahan == true ? 'show' : 'hide'}`} ref={scope}>
+        <div className={`px-8 py-8 ${showHideTableKecamatan == true ? 'show' : 'hide'}`} ref={scope}>
             <div className={`content bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out`}>
                 <div className="p-5">
                     <div className="mx-auto flex items-center justify-between">
@@ -232,11 +232,11 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                                                         className="bg-white-400 text-black py-2 px-4 rounded-md hover:text-blue-500"
                                                         id={
                                                             //@ts-ignore
-                                                            row.original.code_kelurahan.toString()
+                                                            row.original.code_kecamatan.toString()
                                                         }
                                                         onClick={
                                                             //@ts-ignore
-                                                            () => form(row.original.code_kelurahan.toString(), 'update')}
+                                                            () => form(row.original.code_kecamatan.toString(), 'update')}
                                                         data-datas={JSON.stringify(row.original)
                                                         }>
                                                         <FontAwesomeIcon className='w-4 h-4' icon='pen-to-square' />
@@ -250,11 +250,11 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                                                         className="bg-white-600 text-black py-2 px-4 rounded-md hover:text-blue-500"
                                                         id={
                                                             //@ts-ignore
-                                                            row.original.code_kelurahan.toString()
+                                                            row.original.code_kecamatan.toString()
                                                         }
                                                         onClick={
                                                             //@ts-ignore
-                                                            () => form(row.original.code_kelurahan.toString(), 'hapus')
+                                                            () => form(row.original.code_kecamatan.toString(), 'hapus')
                                                         }>
                                                         <FontAwesomeIcon className='w-4 h-4' icon='trash' />
                                                         <span className="pl-2">Delete</span>
@@ -296,7 +296,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                             <Button
                                 variant="outline"
                                 className="hidden h-8 w-8 p-0 lg:flex"
-                                onClick={() => { setPage(1), fetchKelurahan(1) }}
+                                onClick={() => { setPage(1), fetchKecamatan(1) }}
                                 disabled={page == 1}
                             >
                                 <span className="sr-only">Go to first page</span>
@@ -305,7 +305,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                             <Button
                                 variant="outline"
                                 className="h-8 w-8 p-0"
-                                onClick={() => { setPage(page - 1), fetchKelurahan(page - 1) }}
+                                onClick={() => { setPage(page - 1), fetchKecamatan(page - 1) }}
                                 disabled={page == 1}
                             >
                                 <span className="sr-only">Go to previous page</span>
@@ -314,7 +314,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                             <Button
                                 variant="outline"
                                 className="h-8 w-8 p-0"
-                                onClick={() => { setPage(page + 1), fetchKelurahan(page + 1) }}
+                                onClick={() => { setPage(page + 1), fetchKecamatan(page + 1) }}
                                 disabled={data.length < 1}
                             >
                                 <span className="sr-only">Go to next page</span>
@@ -323,7 +323,7 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                             {/* <Button
                                 variant="outline"
                                 className="hidden h-8 w-8 p-0 lg:flex"
-                                onClick={() => { setPage(table.getPageCount() - 1), fetchKelurahan(1) }}
+                                onClick={() => { setPage(table.getPageCount() - 1), fetchKecamatan() }}
                             >
                                 <span className="sr-only">Go to last page</span>
                                 <FontAwesomeIcon className='w-4 h-4' icon='angles-right' />
@@ -339,9 +339,9 @@ const TabelKelurahan = <TData, TValue>({ columns, showHideTableKelurahan, closeT
                     </button>
                 </div>
             </div>
-            <Form openForm={openForm} onClose={closeForm} action={dari} code_kelurahan={codeKelurahan} />
+            <Form openForm={openForm} onClose={closeForm} action={dari} code_kecamatan={codeKecamatan} />
         </div>
     );
 };
 
-export default TabelKelurahan
+export default TabelKecamatan

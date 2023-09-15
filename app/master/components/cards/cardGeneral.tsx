@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 interface cardProps {
     showHideCard: boolean,
     position: string,
-    showTblKelurahan: any
+    showTblKelurahan: any,
+    showTblKecamatan: any
 }
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
@@ -45,7 +46,7 @@ function useMenuAnimation(isOpen: boolean) {
     return scope;
 }
 
-const CardGeneral = ({ showHideCard, position, showTblKelurahan }: cardProps) => {
+const CardGeneral = ({ showHideCard, position, showTblKelurahan, showTblKecamatan }: cardProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const scope = useMenuAnimation(isOpen);
     const showJenisPerusahaan = () => {
@@ -67,10 +68,10 @@ const CardGeneral = ({ showHideCard, position, showTblKelurahan }: cardProps) =>
         console.log(getWilayahProvinsi());
     }
     const showWilayahKabupaten = () => {
-        console.log(getWilayahKabupaten());
+        console.log(getWilayahKabupaten(0, 10, ''));
     }
     const showWilayahKecamatan = () => {
-        console.log(getWilayahKecamatan(1, 10));
+        showTblKecamatan();
     }
     const showWilayahKelurahan = () => {
         showTblKelurahan();

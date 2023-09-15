@@ -1,10 +1,10 @@
 'use client';
 
 import { FontAwesomeIcon } from '../../../../../../lib/fontawesome';
-import { getWilayahKecamatan } from '../../../../midleware/Api';
+import { getWilayahKabupaten } from '../../../../midleware/Api';
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from 'react';
-import { deleteWilayahKelurahan, updateWilayahKelurahan, getWilayahKelurahanById, createWilayahKelurahan, getWilayahKecamatanById } from '../../../../midleware/Api';
+import { deleteWilayahKecamatan, updateWilayahKecamatan, getWilayahKecamatanById, createWilayahKecamatan, getWilayahKabupatenById } from '../../../../midleware/Api';
 import Select from 'react-select';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
@@ -13,31 +13,31 @@ interface modalProps {
     openForm: boolean,
     onClose: any,
     action: string,
-    code_kelurahan: string,
+    code_kecamatan: string,
 }
 
-const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
-    const [dataKecamatan, setDataKecamatan] = useState([{
+const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
+    const [dataKabupaten, setDataKabupaten] = useState([{
         value: "",
-        label: "Pilih Kecamatan"
+        label: "Pilih Kabupaten"
     }]);
     const [formData, setFormData] = useState({
-        code_kelurahan: '',
+        code_kecamatan: '',
         name: '',
-        parent_code_kecamatan: ''
+        parent_code_kabupaten: ''
     });
-    const [panggil, setPanggil] = useState(1)
+    const [panggil, setPanggil] = useState(1);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (search != '') {
             const delay = setTimeout(() => {
-                setDataKecamatan([{
+                setDataKabupaten([{
                     value: "",
-                    label: "Pilih Kecamatan"
+                    label: "Pilih Kabupaten"
                 }])
-                fetchKecamatan('null')
+                fetchKabupaten('null')
             }, 1000);
             return () => clearTimeout(delay)
         }
@@ -45,13 +45,13 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
 
     const close = () => {
         setFormData({
-            code_kelurahan: '',
+            code_kecamatan: '',
             name: '',
-            parent_code_kecamatan: ''
+            parent_code_kabupaten: ''
         });
-        setDataKecamatan([{
+        setDataKabupaten([{
             value: "",
-            label: "Pilih Kecamatan"
+            label: "Pilih Kabupaten"
         }])
         onClose();
         setPanggil(1);
@@ -59,7 +59,8 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
 
     const handleSave = async () => {
         if (action == 'insert') {
-            const result = await createWilayahKelurahan(formData);
+            const result = await createWilayahKecamatan(formData);
+            console.log(result);
 
             const message = result.data.message != undefined ? result.data.message : JSON.stringify(result.data.error.results.errors[0].message);
             console.log(message);
@@ -81,7 +82,7 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
             }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    const result = await updateWilayahKelurahan(formData)
+                    const result = await updateWilayahKecamatan(formData)
 
                     if (result.data != undefined) {
                         const message = result.data.message;
@@ -104,7 +105,7 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
             }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    const result = await deleteWilayahKelurahan(formData)
+                    const result = await deleteWilayahKecamatan(formData)
                     console.log(result);
 
                     if (result.data != undefined) {
@@ -126,68 +127,68 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
         }
     };
 
-    let fetchKecamatan = async (id: string) => {
-        setLoading(true);
+    let fetchKabupaten = async (id: string) => {
         let response = [];
         if (id != 'null' && id != undefined) {
-            response = await getWilayahKecamatanById(id);
+            response = await getWilayahKabupatenById(id);
         } else {
-            response = await getWilayahKecamatan(1, 100, search);
+            response = await getWilayahKabupaten(1, 100, search);
         }
+        
         if (response.status >= 200 && response.status <= 299) {
             const json = response.data.data;
             if (Array.isArray(json)) {
                 json.map((object: any) => {
-                    setDataKecamatan((data) => [
+                    setDataKabupaten((data) => [
                         ...data,
                         {
-                            value: object.code_kecamatan,
+                            value: object.code_kabupaten,
                             label: object.name
                         }
                     ])
                 });
             } else {
-                setDataKecamatan((data) => [
+                setDataKabupaten((data) => [
                     ...data,
                     {
-                        value: json.code_kecamatan,
+                        value: json.code_kabupaten,
                         label: json.name
                     }
                 ])
             }
         } else {
-            setDataKecamatan([{
+            setDataKabupaten([{
                 value: "",
-                label: "Pilih Kecamatan"
+                label: "Pilih Kabupaten"
             }])
         }
         setLoading(false);
     };
 
-    const get_kelurahan = async () => {
-        const response = await getWilayahKelurahanById(code_kelurahan);
+    const get_kecamatan = async () => {
+        const response = await getWilayahKecamatanById(code_kecamatan);
         console.log(response.data);
 
         if (response.data == null) {
             setFormData({
-                code_kelurahan: '',
+                code_kecamatan: '',
                 name: '',
-                parent_code_kecamatan: ''
+                parent_code_kabupaten: ''
             });
         } else {
             setFormData({
-                code_kelurahan: response.data.data.code_kelurahan,
+                code_kecamatan: response.data.data.code_kecamatan,
                 name: response.data.data.name,
-                parent_code_kecamatan: response.data.data.parent_code_kecamatan
+                parent_code_kabupaten: response.data.data.parent_code_kabupaten
             });
-            fetchKecamatan(response.data.data.parent_code_kecamatan);
+            fetchKabupaten(response.data.data.parent_code_kabupaten);
         }
     }
 
     if (openForm == true && panggil == 1) {
-        fetchKecamatan('null')
+        fetchKabupaten('null')
         if (action != "insert") {
-            get_kelurahan()
+            get_kecamatan();
         }
         setPanggil(0);
     }
@@ -203,32 +204,32 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
                     <div className="col py-3">
                         <form>
                             <label className="block pt-2">
-                                <span className="block text-sm font-medium text-slate-700">Kode Kelurahan</span>
+                                <span className="block text-sm font-medium text-slate-700">Kode Kecamatan</span>
                                 {
                                     action == 'insert' ? (
                                         <input
                                             type="text"
-                                            id='code_kelurahan'
-                                            name='code_kelurahan'
-                                            value={formData.code_kelurahan}
-                                            onChange={(e) => setFormData((prevData) => ({ ...prevData, code_kelurahan: e.target.value }))}
+                                            id='code_kecamatan'
+                                            name='code_kecamatan'
+                                            value={formData.code_kecamatan}
+                                            onChange={(e) => setFormData((prevData) => ({ ...prevData, code_kecamatan: e.target.value }))}
                                             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" />
                                     ) : (
                                         <>
                                             <input
                                                 type="hidden"
-                                                id='code_kelurahan'
-                                                name='code_kelurahan'
-                                                value={formData.code_kelurahan}
-                                                onChange={(e) => setFormData((prevData) => ({ ...prevData, code_kelurahan: e.target.value }))}
+                                                id='code_kecamatan'
+                                                name='code_kecamatan'
+                                                value={formData.code_kecamatan}
+                                                onChange={(e) => setFormData((prevData) => ({ ...prevData, code_kecamatan: e.target.value }))}
                                                 className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" />
-                                            <span>{formData.code_kelurahan}</span>
+                                            <span>{formData.code_kecamatan}</span>
                                         </>
                                     )
                                 }
                             </label>
                             <label className="block pt-2">
-                                <span className="block text-sm font-medium text-slate-700">Nama Kelurahan</span>
+                                <span className="block text-sm font-medium text-slate-700">Nama Kecamatan</span>
                                 <input
                                     type="text"
                                     id='Name'
@@ -238,26 +239,25 @@ const Form = ({ openForm, onClose, action, code_kelurahan }: modalProps) => {
                                     className="uppercase mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" />
                             </label>
                             <label className="block pt-2">
-                                <span className="block text-sm font-medium text-slate-700">Kecamatan</span>
+                                <span className="block text-sm font-medium text-slate-700">Kabupaten</span>
                                 <Select
                                     instanceId='3'
                                     className="basic-single"
                                     classNamePrefix="select"
                                     value={
-                                        dataKecamatan.filter(option => option.value === formData.parent_code_kecamatan)
+                                        dataKabupaten.filter(option => option.value === formData.parent_code_kabupaten)
                                     }
-                                    defaultValue={dataKecamatan[0]}
+                                    defaultValue={dataKabupaten[0]}
                                     isDisabled={false}
                                     isLoading={loading}
                                     isClearable={false}
                                     isRtl={false}
                                     isSearchable={true}
                                     name="color"
-                                    options={dataKecamatan}
-                                    onChange={(e) => {
+                                    options={dataKabupaten}
+                                    onChange={(e) =>
                                         //@ts-ignore
-                                        setFormData((prevData) => ({ ...prevData, parent_code_kecamatan: e.value }))
-                                    }
+                                        setFormData((prevData) => ({ ...prevData, parent_code_kabupaten: e.value }))
                                     }
                                     onInputChange={(inputValue) => { setSearch(inputValue), setLoading(true) }}
                                 />

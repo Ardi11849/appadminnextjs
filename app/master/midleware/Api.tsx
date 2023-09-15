@@ -117,27 +117,85 @@ export const getWilayahProvinsi = async () => {
   return result;
 }
   
-export const getWilayahKabupaten = async () => {
+export const getWilayahKabupaten = async (page: number, perPage: number, search: string) => {
   const data = {
     method: 'get',
     url: '/wilayah/kabupaten/results',
     data: {
-      page: 0,
-      perpage: 0
+      page: page,
+      perpage: perPage,
+      name: search,
     }
   }
   const result = await apis(data)
   return result;
 }
   
-export const getWilayahKecamatan = async (page: number, perPage: number) => {
+export const getWilayahKabupatenById = async (code_kabupaten: string) => {
+  const data = {
+    method: 'get',
+    url: '/wilayah/kabupaten/result/'+code_kabupaten,
+    data: {
+      
+    }
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const getWilayahKecamatan = async (page: number, perPage: number, search: string) => {
   const data = {
     method: 'get',
     url: '/wilayah/kecamatan/results',
     data: {
       page: page,
-      perpage: perPage
+      perpage: perPage,
+      name: search,
     }
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const getWilayahKecamatanById = async (code_kecamatan: string) => {
+  const data = {
+    method: 'get',
+    url: '/wilayah/kecamatan/result/'+code_kecamatan,
+    data: {
+      
+    }
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const createWilayahKecamatan = async (datas: object) => {
+  const data = {
+    method: 'post',
+    url: '/wilayah/kecamatan/create',
+    data: datas
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const updateWilayahKecamatan = async (datas: object) => {
+  const data = {
+    method: 'put',
+    //@ts-ignore
+    url: '/wilayah/kecamatan/update/'+datas.code_kecamatan,
+    data: datas
+  }
+  const result = await apis(data)
+  return result;
+}
+  
+export const deleteWilayahKecamatan = async (datas: object) => {
+  const data = {
+    method: 'delete',
+    //@ts-ignore
+    url: '/wilayah/kecamatan/delete/'+datas.code_kecamatan,
+    data: datas
   }
   const result = await apis(data)
   return result;

@@ -5,10 +5,12 @@ import Header from '../../components/Header';
 import CardLoker from '../components/cards/cardLoker';
 import CardGeneral from '../components/cards/cardGeneral';
 import { colKelurahan } from '../components/table/wilayah/kelurahan/columns';
+import { colKecamatan } from '../components/table/wilayah/kecamatan/columns';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { motion, stagger, useAnimate } from "framer-motion";
 import TabelKelurahan from '../components/table/wilayah/kelurahan/tableKelurahan';
+import TabelKecamatan from '../components/table/wilayah/kecamatan/tableKecamatan';
 const MySwal = withReactContent(Swal)
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
@@ -16,6 +18,7 @@ const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 export default function Master() {
   const [showHideCard, setShowHideCard] = useState(true);
   const [showHideTableKelurahan ,setShowHideTableKelurahan] = useState(false);
+  const [showHideTableKecamatan ,setShowHideTableKecamatan] = useState(false);
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
@@ -48,12 +51,20 @@ export default function Master() {
   const closeTable = () => {
     // @ts-ignore
     setShowHideTableKelurahan(false);
+    setShowHideTableKecamatan(false);
     // @ts-ignore
     setShowHideCard(true);
   }
   const showTblKelurahan = () => {
     // @ts-ignore
     setShowHideTableKelurahan(true);
+    // @ts-ignore
+    setShowHideCard(false);
+    
+  }
+  const showTblKecamatan = () => {
+    // @ts-ignore
+    setShowHideTableKecamatan(true);
     // @ts-ignore
     setShowHideCard(false);
     
@@ -77,11 +88,17 @@ export default function Master() {
           // @ts-ignore
           showHideTableKelurahan={showHideTableKelurahan}
           closeTable={closeTable} />
+          <TabelKecamatan
+            columns={colKecamatan}
+            // @ts-ignore
+            showHideTableKecamatan={showHideTableKecamatan}
+            closeTable={closeTable} />
         <CardGeneral
           // @ts-ignore
           showHideCard={showHideCard} 
           position='float-left'
-          showTblKelurahan={showTblKelurahan} />
+          showTblKelurahan={showTblKelurahan}
+          showTblKecamatan={showTblKecamatan} />
         <CardLoker
           // @ts-ignore
           showHideCard={showHideCard} 

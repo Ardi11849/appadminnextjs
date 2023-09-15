@@ -40,7 +40,7 @@ export const apis = async (datas: any) => {
       // })
     })
     .catch((err) => {
-      return err;
+      return err.response;
       // dispatch({
       //   type: GET_USER,
       //   payload: {
