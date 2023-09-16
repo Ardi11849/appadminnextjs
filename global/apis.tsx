@@ -17,7 +17,7 @@ export function getTokenFromLocalStorage() {
   return localStorage.getItem('token');
 }
 
-export const apis = async (datas: any) => {
+export const apis = async (datas: any) => { 
   return await axios({
     method: datas.method,
     url: url + datas.url,

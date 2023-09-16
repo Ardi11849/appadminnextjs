@@ -14,9 +14,9 @@ import { useState } from "react"
 import { apis } from "../../../global/apis"
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion';
-
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content'
+import withReactContent from 'sweetalert2-react-content';
+import $ from 'jquery';
 const MySwal = withReactContent(Swal)
 
 interface formRegisterprops {
@@ -45,7 +45,7 @@ const FormRegister = ({ isOpen, onClose }: formRegisterprops) => {
         role: 'user',
       }
     }
-    const result = await apis(data)
+    const result = await apis(data);
     if (result.request.status == 200) {
       MySwal.fire(
         'Berhasil',
@@ -56,28 +56,12 @@ const FormRegister = ({ isOpen, onClose }: formRegisterprops) => {
       })
     } else {
       let message = '';
-      if (result.response.data.message != null) {
-        message = result.response.data.message;
+      if (result.data.message != null) {
+        message = result.data.message;
       } else {
-        try {
-          message = result.response.data.error.results.errors[0].Email.message;
-        } catch (error) {
-          try {
-            message = result.response.data.error.results.errors[0].Password.message;
-          } catch (error) {
-            try {
-              message = result.response.data.error.results.errors[0].LastName.message;
-            } catch (error) {
-              try {
-                message = result.response.data.error.results.errors[0].FirstName.message;
-              } catch (error) {
-                console.log(error);
-              }
-            }
-          }
-        }
+          message = result.data.error[0].message;
+          $("#"+result.data.error[0].param).trigger('focus');
       }
-
       Swal.fire({
         icon: 'error',
         title: 'Failed Login',
@@ -117,15 +101,15 @@ const FormRegister = ({ isOpen, onClose }: formRegisterprops) => {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Email</Label>
-                <Input id="emailRegister" type="email" placeholder="Please Insert Your Email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                <Input id="Email" type="email" placeholder="Please Insert Your Email" onChange={(e) => setEmail(e.target.value)} value={email} />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">First Name</Label>
-                <Input id="firstNameRegister" type="text" placeholder="Please Insert Your First Name" onChange={(e) => setFirstName(e.target.value)} value={firstName} />
+                <Input className="lowercase" id="FirstName" type="text" placeholder="Please Insert Your First Name" onChange={(e) => setFirstName(e.target.value.toLocaleLowerCase())} value={firstName} />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Last Name</Label>
-                <Input id="lastNameRegister" type="text" placeholder="Please Insert Your Last Name" onChange={(e) => setLastName(e.target.value)} value={lastName} />
+                <Input className="lowercase" id="LastName" type="text" placeholder="Please Insert Your Last Name" onChange={(e) => setLastName(e.target.value.toLocaleLowerCase())} value={lastName} />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Password</Label>

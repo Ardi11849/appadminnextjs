@@ -15,7 +15,8 @@ import { apis, storeTokenInLocalStorage } from "../../../global/apis"
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content'
+import withReactContent from 'sweetalert2-react-content';
+import $ from 'jquery';
 const MySwal = withReactContent(Swal)
 
 interface formLoginprops {
@@ -41,7 +42,6 @@ const FormLogin = ({ isOpen, onClose }: formLoginprops) => {
       }
     }
     const result = await apis(data)
-    console.log(result);
 
     if (result.request.status == 200) {
       MySwal.fire(
@@ -51,21 +51,17 @@ const FormLogin = ({ isOpen, onClose }: formLoginprops) => {
       ).then(() => {
 
         setLoading(false)
-        console.log(result);
         storeTokenInLocalStorage(result.data.data.accessToken)
         router.replace('/dashboard');
       })
     } else {
       setLoading(false)
       let message = '';
-      if (result.response.data.message != null) {
-        message = result.response.data.message;
+      if (result.data.message != null) {
+        message = result.data.message;
       } else {
-        try {
-          message = result.response.data.error.results.errors[0].Email.message;
-        } catch (error) {
-          message = result.response.data.error.results.errors[0].Password.message;
-        }
+        message = result.data.error[0].message;
+        $("#"+result.data.error[0].param).trigger('focus');
       }
 
       Swal.fire({
@@ -124,11 +120,11 @@ const FormLogin = ({ isOpen, onClose }: formLoginprops) => {
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Email</Label>
-                    <Input id="emailLogin" type="email" placeholder="Masukan Email Disini" onChange={(e) => setEmail(e.target.value)} value={email} />
+                    <Input id="Email" type="email" placeholder="Masukan Email Disini" onChange={(e) => setEmail(e.target.value)} value={email} />
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="framework">Password</Label>
-                    <Input id="passwordLogin" type="password" placeholder="Masukan Password Disini" onChange={(e) => setPassword(e.target.value)} value={password} />
+                    <Input id="Password" type="password" placeholder="Masukan Password Disini" onChange={(e) => setPassword(e.target.value)} value={password} />
                   </div>
                 </div>
               </form>

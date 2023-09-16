@@ -47,6 +47,7 @@ const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [from, setFrom] = useState('');
     const scope = useMenuAnimation(isOpen, from);
+    const router = useRouter()
 
     const { push } = useRouter();
 
@@ -62,13 +63,14 @@ const Sidebar = () => {
     }, []);
 
     const logout = async () => {
-        storeTokenInLocalStorage('null')
+        storeTokenInLocalStorage('null');
+        router.replace('/');
     }
 
     const path = usePathname();
     return (
         <div className="bg-gray-700 w-[17rem] py-4 px-6 text-white min-h-full min-h-screen">
-            <h2 className="text-2xl font-bold mb-4"><img className="px-6 pt-6" width="100" height="100" src="https://shekinahland.com/wp-content/uploads/2022/01/logoipsum-logo-17-01.png" alt="ChitChat Logo" /></h2>
+            <h2 className="text-2xl font-bold mb-4"><img className="px-6 pt-6" src="https://shekinahland.com/wp-content/uploads/2022/01/logoipsum-logo-17-01.png" alt="ChitChat Logo" /></h2>
             <nav className="menu pt-8" ref={scope}>
                 <motion.button
                     className='flex nav-item rounded text-slate-400'
