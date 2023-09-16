@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getWilayahKecamatan } from '../../../../midleware/Api';
 import {
     ColumnDef,
@@ -8,6 +8,7 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     SortingState,
+    PaginationState
 } from "@tanstack/react-table"
 import {
     Table,
@@ -40,8 +41,12 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [totalRows, setTotalRows] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    })
     const [perPage, setPerPage] = useState(10);
-    const [page, setPage] = useState(1);
     const [sorting, setSorting] = useState<SortingState>([])
     const [scope, animate] = useAnimate();
     const [openForm, setOpenForm] = useState(false);
@@ -49,6 +54,14 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
     const [codeKecamatan, setCodeKecamatan] = useState('');
     const [panggil, setPanggil] = useState(1)
     const [search, setSearch] = useState('')
+
+    const pagination = useMemo(
+        () => ({
+            pageIndex,
+            pageSize,
+        }),
+        [pageIndex, pageSize]
+    )
 
     useEffect(() => {
         animate(
@@ -79,36 +92,40 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
 
     useEffect(() => {
         if (showHideTableKecamatan == true) {
-            fetchKecamatan(page);
+            fetchKecamatan();
         }
-    }, [perPage]);
+    }, [pageIndex, pageSize]);
 
     useEffect(() => {
-        if (openForm == false) {
-            fetchKecamatan(page);
+        if (openForm == false && showHideTableKecamatan == true) {
+            fetchKecamatan();
         }
     }, [openForm]);
 
     useEffect(() => {
         if (showHideTableKecamatan == true) {
-            setPage(1);
+            setPagination({
+                pageIndex: 0,
+                pageSize: 10,
+            })
             const delay = setTimeout(() => {
-                fetchKecamatan(page);
+                fetchKecamatan();
             }, 1000);
             return () => clearTimeout(delay)
         }
     }, [search]);
 
-    let fetchKecamatan = async (page: number) => {
+    let fetchKecamatan = async () => {
         setPanggil(0)
         setLoading(true);
 
-        const response = await getWilayahKecamatan(page, perPage, search);
+        const response = await getWilayahKecamatan((pageIndex + 1), pageSize, search);
         console.log(response);
         
         if (response.data.code >= 200 && response.data.code <= 299) {
             setData(response.data.data);
-            setTotalRows(response.data.total);
+            setTotalRows(response.data.total_data);
+            setTotalPages(response.data.total_page);
         } else {
             setData([]);
         }
@@ -116,7 +133,7 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
     };
 
     if (showHideTableKecamatan == true && panggil == 1) {
-        fetchKecamatan(page);
+        fetchKecamatan();
     }
 
     const changePerPage = (value: any) => {
@@ -143,12 +160,16 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
     let table = useReactTable({
         data,
         columns,
+        pageCount: totalPages,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        // getPaginationRowModel: getPaginationRowModel(),
+        onPaginationChange: setPagination,
+        manualPagination: true,
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         state: {
             sorting,
+            pagination,
         },
     })
 
@@ -207,7 +228,7 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     <TableCell key='no'>
-                                        {(+row.id + 1) + (page * perPage) - perPage}
+                                        {(+row.id + 1) + ((pageIndex+1) * pageSize) - pageSize}
                                     </TableCell>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
@@ -276,7 +297,7 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
                 </Table>
                 <div className="flex items-center justify-between px-2">
                     <div className="flex-1 text-sm text-muted-foreground">
-                        Showing {table.getFilteredRowModel().rows.length} rows.
+                        Showing {table.getRowModel().rows.length} rows of {totalRows}.
                     </div>
                     <div className="flex items-center space-x-6 lg:space-x-8">
                         <div className="flex items-center space-x-2">
@@ -289,15 +310,17 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                            Page {page}
+                        <div className="flex w-[150px] items-center justify-center text-sm font-medium">
+                            <strong>
+                                Page {table.getState().pagination.pageIndex + 1} of{' '} {table.getPageCount()}
+                            </strong>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Button
                                 variant="outline"
                                 className="hidden h-8 w-8 p-0 lg:flex"
-                                onClick={() => { setPage(1), fetchKecamatan(1) }}
-                                disabled={page == 1}
+                                onClick={() => table.setPageIndex(0)}
+                                disabled={!table.getCanPreviousPage()}
                             >
                                 <span className="sr-only">Go to first page</span>
                                 <FontAwesomeIcon className='w-4 h-4' icon='angles-left' />
@@ -305,8 +328,8 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
                             <Button
                                 variant="outline"
                                 className="h-8 w-8 p-0"
-                                onClick={() => { setPage(page - 1), fetchKecamatan(page - 1) }}
-                                disabled={page == 1}
+                                onClick={() => table.previousPage()}
+                                disabled={!table.getCanPreviousPage()}
                             >
                                 <span className="sr-only">Go to previous page</span>
                                 <FontAwesomeIcon className='w-4 h-4' icon='chevron-left' />
@@ -314,20 +337,21 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
                             <Button
                                 variant="outline"
                                 className="h-8 w-8 p-0"
-                                onClick={() => { setPage(page + 1), fetchKecamatan(page + 1) }}
-                                disabled={data.length < 1}
+                                onClick={() => table.nextPage()}
+                                disabled={!table.getCanNextPage()}
                             >
                                 <span className="sr-only">Go to next page</span>
                                 <FontAwesomeIcon className='w-4 h-4' icon='chevron-right' />
                             </Button>
-                            {/* <Button
+                            <Button
                                 variant="outline"
                                 className="hidden h-8 w-8 p-0 lg:flex"
-                                onClick={() => { setPage(table.getPageCount() - 1), fetchKecamatan() }}
+                                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                                disabled={!table.getCanNextPage()}
                             >
                                 <span className="sr-only">Go to last page</span>
                                 <FontAwesomeIcon className='w-4 h-4' icon='angles-right' />
-                            </Button> */}
+                            </Button>
                         </div>
                     </div>
                 </div>

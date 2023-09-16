@@ -3,11 +3,12 @@
 import { FontAwesomeIcon } from '../../../../../../lib/fontawesome';
 import { getWilayahKabupaten } from '../../../../midleware/Api';
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { deleteWilayahKecamatan, updateWilayahKecamatan, getWilayahKecamatanById, createWilayahKecamatan, getWilayahKabupatenById } from '../../../../midleware/Api';
 import Select from 'react-select';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
+import $ from 'jquery';
 const MySwal = withReactContent(Swal)
 interface modalProps {
     openForm: boolean,
@@ -17,6 +18,7 @@ interface modalProps {
 }
 
 const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
+    const selectRef = useRef(null);
     const [dataKabupaten, setDataKabupaten] = useState([{
         value: "",
         label: "Pilih Kabupaten"
@@ -61,9 +63,8 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
         if (action == 'insert') {
             const result = await createWilayahKecamatan(formData);
             console.log(result);
-
-            const message = result.data.message != undefined ? result.data.message : JSON.stringify(result.data.error.results.errors[0].message);
-            console.log(message);
+            
+            const message = result.data.message != undefined ? result.data.message : JSON.stringify(result.data.error[0].message);
             if (result.data.code >= 200 && result.data.code < 300) {
                 MySwal.fire(
                     'Saved!',
@@ -72,7 +73,14 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                 )
                 close()
             } else {
-                MySwal.fire('Failed To Save', message, 'info')
+                if (result.data.error[0].param == "ParentCodeKabupaten") {
+                    //@ts-ignore
+                    selectRef.current?.focus();
+                } else {
+                    console.log($("#"+result.data.error[0].param).trigger('focus'));
+                    $("#"+result.data.error[0].param).trigger('focus');
+                }
+                MySwal.fire('Failed To Save', message, 'error')
             }
         } else if (action == 'update') {
             MySwal.fire({
@@ -83,15 +91,22 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     const result = await updateWilayahKecamatan(formData)
-
-                    if (result.data != undefined) {
-                        const message = result.data.message;
+                    const message = result.data.message != undefined ? result.data.message : JSON.stringify(result.data.error[0].message);
+                    if (result.data.code >= 200 && result.data.code < 300) {
                         MySwal.fire(
                             'Saved!',
                             message,
                             'success'
                         )
                         close()
+                    } else {
+                        if (result.data.error[0].param == "ParentCodeKabupaten") {
+                            //@ts-ignore
+                            selectRef.current?.focus();
+                        } else {                            
+                            $("#"+result.data.error[0].param).trigger('focus');
+                        }
+                        MySwal.fire('Failed To Save', message, 'error')
                     }
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
@@ -106,9 +121,7 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     const result = await deleteWilayahKecamatan(formData)
-                    console.log(result);
-
-                    if (result.data != undefined) {
+                    if (result.data.code >= 200 && result.data.code < 300) {
                         const message = result.data.message;
                         MySwal.fire(
                             'Deleted!',
@@ -143,7 +156,7 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                         ...data,
                         {
                             value: object.code_kabupaten,
-                            label: object.name
+                            label: object.name_kabupaten
                         }
                     ])
                 });
@@ -152,7 +165,7 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                     ...data,
                     {
                         value: json.code_kabupaten,
-                        label: json.name
+                        label: json.name_kabupaten
                     }
                 ])
             }
@@ -209,7 +222,7 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                                     action == 'insert' ? (
                                         <input
                                             type="text"
-                                            id='code_kecamatan'
+                                            id="CodeKecamatan"
                                             name='code_kecamatan'
                                             value={formData.code_kecamatan}
                                             onChange={(e) => setFormData((prevData) => ({ ...prevData, code_kecamatan: e.target.value }))}
@@ -232,7 +245,7 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                                 <span className="block text-sm font-medium text-slate-700">Nama Kecamatan</span>
                                 <input
                                     type="text"
-                                    id='Name'
+                                    id="Name"
                                     name='Name'
                                     value={formData.name}
                                     onChange={(e) => setFormData((prevData) => ({ ...prevData, name: e.target.value.toLocaleUpperCase() }))}
@@ -247,6 +260,7 @@ const Form = ({ openForm, onClose, action, code_kecamatan }: modalProps) => {
                                     value={
                                         dataKabupaten.filter(option => option.value === formData.parent_code_kabupaten)
                                     }
+                                    ref={selectRef}
                                     defaultValue={dataKabupaten[0]}
                                     isDisabled={false}
                                     isLoading={loading}

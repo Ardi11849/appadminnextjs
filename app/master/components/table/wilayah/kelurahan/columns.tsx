@@ -30,7 +30,7 @@ export const colKelurahan: ColumnDef<Kelurahan>[] = [
         },
     },
     {
-        accessorKey: "name",
+        accessorKey: "name_kelurahan",
         header: ({ column }) => {
           return (
             <button
@@ -56,7 +56,7 @@ export const colKelurahan: ColumnDef<Kelurahan>[] = [
     //     },
     // },
     {
-        accessorKey: "Kecamatan.name",
+        accessorKey: "name_kecamatan",
         header: ({ column }) => {
           return (
             <button
@@ -82,7 +82,7 @@ export const colKelurahan: ColumnDef<Kelurahan>[] = [
     //     },
     // },
     {
-        accessorKey: "Kecamatan.Kabupaten.name",
+        accessorKey: "name_kabupaten",
         header: ({ column }) => {
           return (
             <button
@@ -108,7 +108,7 @@ export const colKelurahan: ColumnDef<Kelurahan>[] = [
     //     },
     // },
     {
-        accessorKey: "Kecamatan.Kabupaten.Provinsi.name",
+        accessorKey: "name_provinsi",
         header: ({ column }) => {
           return (
             <button
@@ -134,7 +134,7 @@ export const colKelurahan: ColumnDef<Kelurahan>[] = [
     //     },
     // },
     {
-        accessorKey: "Kecamatan.Kabupaten.Provinsi.Negara.name",
+        accessorKey: "name_negara",
         header: ({ column }) => {
           return (
             <button

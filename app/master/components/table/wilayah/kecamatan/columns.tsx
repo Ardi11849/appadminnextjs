@@ -28,7 +28,7 @@ export const colKecamatan: ColumnDef<Kecamatan>[] = [
         },
     },
     {
-        accessorKey: "name",
+        accessorKey: "name_kecamatan",
         header: ({ column }) => {
           return (
             <button
@@ -41,7 +41,7 @@ export const colKecamatan: ColumnDef<Kecamatan>[] = [
         },
     },
     {
-        accessorKey: "Kabupaten.name",
+        accessorKey: "name_kabupaten",
         header: ({ column }) => {
           return (
             <button
@@ -54,7 +54,7 @@ export const colKecamatan: ColumnDef<Kecamatan>[] = [
         },
     },
     {
-        accessorKey: "Kabupaten.Provinsi.name",
+        accessorKey: "name_provinsi",
         header: ({ column }) => {
           return (
             <button
@@ -67,7 +67,7 @@ export const colKecamatan: ColumnDef<Kecamatan>[] = [
         },
     },
     {
-        accessorKey: "Kabupaten.Provinsi.Negara.name",
+        accessorKey: "name_negara",
         header: ({ column }) => {
           return (
             <button
