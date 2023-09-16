@@ -177,6 +177,11 @@ const TabelKecamatan = <TData, TValue>({ columns, showHideTableKecamatan, closeT
         <div className={`px-8 py-8 ${showHideTableKecamatan == true ? 'show' : 'hide'}`} ref={scope}>
             <div className={`content bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300 ease-in-out`}>
                 <div className="p-5">
+                    <div className="text-black font-semibold text-xl">
+                        <h1>Tabel Kecamatan</h1>
+                    </div>
+                </div>
+                <div className="p-5">
                     <div className="mx-auto flex items-center justify-between">
                         <button onClick={() => form('0', 'insert')} className='p-2 text-white rounded-lg bg-blue-500 border hover:bg-blue-700'>
                             <FontAwesomeIcon className='w-4 h-4' icon='plus-square' />
