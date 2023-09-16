@@ -1,7 +1,7 @@
 {
     "headers": [
       {
-        "source": "http://103.175.221.43:7778/(.*)",
+        "source": "http://103.175.221.43:7778/*",
         "headers": [
           { "key": "Access-Control-Allow-Credentials", "value": "true" },
           { "key": "Access-Control-Allow-Origin", "value": "*" },
