@@ -2,6 +2,7 @@
 'use client'
 import { FontAwesomeIcon } from '../../lib/fontawesome';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
 import { usePathname } from 'next/navigation';
@@ -68,7 +69,7 @@ const Sidebar = () => {
     const path = usePathname();
     return (
         <div className="bg-gray-700 w-[17rem] py-4 px-6 text-white min-h-full min-h-screen">
-            <h2 className="text-2xl font-bold mb-4"><img className="px-6 pt-6" src="https://shekinahland.com/wp-content/uploads/2022/01/logoipsum-logo-17-01.png" alt="ChitChat Logo" /></h2>
+            <h2 className="text-2xl font-bold mb-4"><Image className="px-6 pt-6" src="https://shekinahland.com/wp-content/uploads/2022/01/logoipsum-logo-17-01.png" alt="ChitChat Logo" /></h2>
             <nav className="menu pt-8" ref={scope}>
                 <motion.button
                     className='flex nav-item rounded text-slate-400'
